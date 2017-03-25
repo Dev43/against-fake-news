@@ -20,7 +20,7 @@ class NewsScrapper():
                 self.links = self._getLinks()
 
         def scrap(self):
-            r = self._getHtml() 
+            r = self.html 
             soup = BeautifulSoup(r.text, 'lxml')
             #clean the received html
             html_cleaned = self._cleanHtml(soup)
@@ -28,8 +28,19 @@ class NewsScrapper():
             #create a dictionary structure {company : {index : {site,
             #raw_text}
             dataText = html_cleaned
-
             return dataText 
+
+        def getSource(self):
+            links = self.links
+            sources = set()
+            hostname = (urlparse(self.link).hostname)[4:] if (urlparse(self.link).hostname)[:4] == 'www.' else urlparse(self.link).hostname
+            for link in links:
+                prsd = urlparse(link)
+                if prsd.hostname != None and hostname not in prsd.hostname:
+                    sources.add(prsd.hostname)
+            return sources
+
+            
         
         def _getHtml(self):
             l = self.link 
@@ -66,7 +77,7 @@ class NewsScrapper():
             return text
 
         def _getLinks(self):
-            r = self._getHtml()
+            r = self.html
             soup = BeautifulSoup(r.text, 'lxml')
             links = []
             for link in soup.find_all('a'):
