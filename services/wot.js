@@ -43,7 +43,7 @@ function transformData(data) {
 
         resolve({
             reputation: data.data[domain]['0'][0],
-            confiance: data.data[domain]['0'][1],
+            confidence: data.data[domain]['0'][1],
             categories: data.data[domain].categories
         });
     });
