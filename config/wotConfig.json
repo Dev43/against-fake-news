@@ -1,3 +1,6 @@
 {
-    "apiKey": "fc8f80dc031207add42890a1bff9a2169b3f27ff"
+    "api": {
+        "baseUrl": "http://api.mywot.com/0.4/public_link_json2",
+        "key": "fc8f80dc031207add42890a1bff9a2169b3f27ff"
+    }
 }
