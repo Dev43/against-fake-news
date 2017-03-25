@@ -10,22 +10,28 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', function(req, res){
-    res.render('index');
+    return res.render('index');
 });
 
 app.post('/analyse', function(req, res) {
   var sentimentPercentage = 0;
-  sentiment.getSentiment(req.body.url, function(data){
+  return sentiment.getSentimentPromise(req.body.url)
+    .then(function(data){
     sentimentPercentage = data
-    siteCheckerService.getResult(req.body.url).then(result => {
-        res.render('analysis', {
+    return siteCheckerService.getResult(req.body.url)
+  })
+    .then(result => {
+         return res.render('analysis', {
             result: JSON.stringify(result),
             sentiment: sentimentPercentage
         });
       })
+    .catch((error) => {
+      console.log("Error", error)
+    })
     });
 
-});
+
 
 app.listen(PORT, () => {
     console.log("Against Fake News listening on port " + PORT);

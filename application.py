@@ -12,7 +12,7 @@ def read_in():
 
 def main():
     url = read_in()   # url = "http://yahoo.com"
-    # url = "http://yahoo.com"
+    # url = "http://abcnews.com.co/obama-executive-order-bans-pledge-of-allegiance-in-schools/"
     # url = json.loads(lines[0])
     scraper = NewsScrapper(url)
     # print(scraper.sources)
