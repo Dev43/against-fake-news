@@ -14,6 +14,16 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+app.post('/analyse', function(req, res) {
+  // L'information necessaire (le URL est dans req.body.url -- le reste est de passe
+  // ce URL a l'analyse)
+
+  // Ppour passer les resultats de l'analyse, on les passes dans un obnjet quand on render
+
+  res.render('analysis', {url: req.body.url})
+
+})
+
 app.listen(PORT, () => {
   console.log("Against Fake News listening on port " + PORT);
   console.log(`http://localhost:${PORT}`);
