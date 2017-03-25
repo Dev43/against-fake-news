@@ -1,8 +1,6 @@
 const request = require('request');
 require("dotenv").config();
-var spawn = require('child_process').spawn,
-    py    = spawn('python3', ['application.py']), // script is partially in application.py
-    dataString = '';
+
 
 
 
@@ -50,12 +48,8 @@ let p2 = new Promise((resolve, reject) => {
 
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
-
     // get all the scores for all the sentenvces, make a mean score
-    // console.log(body)
-    // console.log(body.documents)
     let avg = averageSentiment(body.documents)
-    // console.log(avg)
     resolve(avg)
     });
   })
@@ -63,67 +57,39 @@ return p2;
 }
 
 
-// parseWebsite("http://yahoo.com").then(console.log)
-// parseWebsite("http://yahoo.com")
-//     .then((data) => {
-//       return sendRequest(data)
-//     })
-//     .then((avg) => {
-//       console.log(avg)
-//     })
 
 function parseWebsite(url){
 // Scraping a specific website
-  // py.stdin.write(JSON.stringify(url)); // url to scrape
+var spawn = require('child_process').spawn,
+    py    = spawn('python3', ['application.py']), // script is partially in application.py
+    dataString = '';
+console.log(py)
   let p1 = new Promise((resolve, reject) => {
 
     py.stdout.on('data', function(data){
       dataString += data.toString();
+
     });
 
     py.stdout.on('end', function(){
-      // console.log('Data received ', dataString);
       dataString = JSON.parse(dataString)
       let sentencesArray = dataString.text.split(".").filter((element) => {
         return element.length > 20 // cannot be null
       }) // filter it more
 
+      py.kill();
       resolve(sentencesArray)
     });
-
-    py.stdin.end(JSON.stringify(url));
-
+    // py.on('close', (code) => {
+    //   console.log('closed with code', code)
+    // py.stdin.end();
+    // })
+    py.stdin.write(JSON.stringify(url));
+    py.stdin.end();
   })
-    // Receiving info from python script
   return p1;
-  // Sending information to python script
 }
-// function parseWebsite(url, cb){
-// // Scraping a specific website
-//   // py.stdin.write(JSON.stringify(url)); // url to scrape
 
-//   // Receiving info from python script
-//   py.stdout.on('data', function(data){
-//     dataString += data.toString();
-//   });
-
-//   py.stdout.on('end', function(){
-//     // console.log('Data received ', dataString);
-//     dataString = JSON.parse(dataString)
-//     let sentencesArray = dataString.text.split(".").filter((element) => {
-//       return element.length > 20 // cannot be null
-//     }) // filter it more
-//     let preprocessedData = aggregateSentences(sentencesArray)
-//     // console.log(preprocessedData)
-//     let results = sendRequest(sentencesArray, cb)
-//     return
-//   });
-
-//  return py.stdin.end(JSON.stringify(url));
-
-//   // Sending information to python script
-
-// }
 
 module.exports = {
   getSentiment: function(url, cb){

@@ -19,13 +19,13 @@ app.post('/analyse', function(req, res) {
     .then(function(data){
     sentimentPercentage = data
     return siteCheckerService.getResult(req.body.url)
-  })
+    })
     .then(result => {
          return res.render('analysis', {
             result: JSON.stringify(result),
             sentiment: sentimentPercentage
         });
-      })
+    })
     .catch((error) => {
       console.log("Error", error)
     })
