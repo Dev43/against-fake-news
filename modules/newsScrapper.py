@@ -1,5 +1,5 @@
 import requests
-import json
+import json, sys, numpy as np
 from bs4 import BeautifulSoup
 #from sklearn.feature_extraction.text import CountVectorizer
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -20,7 +20,7 @@ class NewsScrapper():
                 self.links = self._getLinks()
 
         def scrap(self):
-            r = self._getHtml() 
+            r = self._getHtml()
             soup = BeautifulSoup(r.text, 'lxml')
             #clean the received html
             html_cleaned = self._cleanHtml(soup)
@@ -29,16 +29,16 @@ class NewsScrapper():
             #raw_text}
             dataText = html_cleaned
 
-            return dataText 
-        
+            return dataText
+
         def _getHtml(self):
-            l = self.link 
+            l = self.link
             # make sure link starts with http in order to scrap it
             if l[0:4] != 'http':
                     l = 'http://'+l
             headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
             r = requests.get(l, headers=headers)
-            
+
             '''
             except:
                     print('Error over here !')
@@ -72,9 +72,14 @@ class NewsScrapper():
             for link in soup.find_all('a'):
                     links.append(link.get('href'))
             return links
+'''
+def main()
+    lines = sys.stdin.readlines()
+    url = json.loads(lines[0])
+    scraper = NewsScrapper()
+'''
 
-
-''' 
+'''
         def mine(self, search_engine = 'google_scrap', count = 5):
 
 
@@ -98,7 +103,7 @@ class NewsScrapper():
                #TODO For Google search engine
                 elif search_engine == 'google':
                         url  = 'https://www.googleapis.com/customsearch/v1?key=AIzaSyCKOXT3npc_zHa3VTDMTkT6erzeKhu3FN0&q='+self.company+'&cx=001235176516091570544:z2abylo6azu'
-                        header = None   
+                        header = None
                         r = requests.get(url, headers=header, verify=False)
                         return r
 
@@ -118,8 +123,8 @@ class NewsScrapper():
                                 if glink[0] == '/':
                                         continue
                                 link_lists.append(glink)
-                        return link_lists       
-'''             
+                        return link_lists
+'''
 '''
         def tokenize(self, data):
                 if type(data) == str:
@@ -129,7 +134,7 @@ class NewsScrapper():
                 count_vect = CountVectorizer(stop_words = "english")
                 Z = count_vect.fit_transform(data)
                 print(count_vect.get_feature_names())
-                exit()  
+                exit()
 
 
 '''
