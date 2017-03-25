@@ -4,7 +4,6 @@ import sys, json
 from modules.newsScrapper import NewsScrapper
 
 #Read data from stdin
-print("hello")
 
 def read_in():
     lines = sys.stdin.readlines()
@@ -13,11 +12,10 @@ def read_in():
 
 def main():
     url = read_in()   # url = "http://yahoo.com"
-    print(url)
     # url = "http://yahoo.com"
     # url = json.loads(lines[0])
     scraper = NewsScrapper(url)
-    print(scraper.sources)
+    # print(scraper.sources)
     result = json.dumps({"source": scraper.sources, "text": scraper.text})
     # print("hello")
     print(result)
