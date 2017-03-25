@@ -22,9 +22,10 @@ function parseWebsite(url, cb){
     // console.log('Data received ', dataString);
     dataString = JSON.parse(dataString)
     let sentencesArray = dataString.text.split(".").filter((element) => {
-      return element.length > 0 // cannot be null
+      return element.length > 20 // cannot be null
     }) // filter it more
     let preprocessedData = aggregateSentences(sentencesArray)
+    console.log(preprocessedData)
     let results = sendRequest(sentencesArray, cb)
 
   });
@@ -37,6 +38,9 @@ function parseWebsite(url, cb){
 
 function averageSentiment(analysisResponse){
   return analysisResponse.reduce((acc, next) => {
+    if(next.score < 0.25){
+      next.score = -1.5
+    }
     return acc + next.score
   }, 0) / analysisResponse.length
 }
@@ -73,6 +77,7 @@ function sendRequest(data, cb){
     if (error) throw new Error(error);
 
     // get all the scores for all the sentenvces, make a mean score
+    console.log(body.documents)
     let avg = averageSentiment(body.documents)
     // console.log(avg)
     cb(avg)
