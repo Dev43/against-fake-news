@@ -10,7 +10,7 @@ const test1 = "Je deteste le plat Nato";
 const sentences = [test, test1]
 
 
-function parseWebsite(url){
+function parseWebsite(url, cb){
 // Scraping a specific website
 
   // Receiving info from python script
@@ -25,13 +25,8 @@ function parseWebsite(url){
       return element.length > 0 // cannot be null
     }) // filter it more
     let preprocessedData = aggregateSentences(sentencesArray)
-    console.log("the preprocessed data is" + JSON.stringify(preprocessedData))
-    let results = sendRequest(sentencesArray)
-    // console.log(results)
-    // let avg = averageSentiment(results)
-    // console.log(avg)
+    let results = sendRequest(sentencesArray, cb)
 
-    return dataString;
   });
 
   // Sending information to python script
@@ -58,7 +53,7 @@ function aggregateSentences(sentences){
 }
 
 
-function sendRequest(data){
+function sendRequest(data, cb){
   const options = {
     method: 'POST',
     url: 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
@@ -73,18 +68,28 @@ function sendRequest(data){
     json: true
   };
 
-console.log(options)
 
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
 
     // get all the scores for all the sentenvces, make a mean score
-    console.log(body)
-    // console.log(response)
-    console.log(averageSentiment(body.documents))
+    let avg = averageSentiment(body.documents)
+    // console.log(avg)
+    cb(avg)
+    return avg
 
   });
 }
 
 
-parseWebsite("http://yahoo.com")
+// parseWebsite("http://yahoo.com", function(data){
+//   console.log(data)
+//   return data
+// })
+
+
+module.exports = {
+  getSentiment: function(url, cb){
+    parseWebsite(url, cb)
+  }
+}
