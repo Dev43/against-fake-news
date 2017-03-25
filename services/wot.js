@@ -2,7 +2,6 @@ const Promise = require('bluebird');
 const request = require('request');
 const wotConfig = require('../config/wotConfig');
 
-
 const wotApiBaseUrl = 'http://api.mywot.com/0.4/public_link_json2';
 
 module.exports = function(url) {
@@ -13,7 +12,8 @@ module.exports = function(url) {
             url: requestUrl,
             method: 'GET',
             json: true
-        }
+        };
+
         request(options, (error, response, body) => {
             if (error) {
                 reject(error);
