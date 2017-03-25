@@ -12,10 +12,6 @@ app.get('/', function(req, res){
 });
 
 app.post('/analyse', function(req, res) {
-    // L'information necessaire (le URL est dans req.body.url -- le reste est de passe
-    // ce URL a l'analyse)
-    // Ppour passer les resultats de l'analyse, on les passes dans un obnjet quand on render
-
     const siteCheckerService = require('./services/siteChecker');
 
     siteCheckerService.getResult(req.body.url).then(result => {
