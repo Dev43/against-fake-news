@@ -4,20 +4,6 @@ import sys, json
 from modules.newsScrapper import NewsScrapper
 
 #Read data from stdin
-print("hello")
-
-# def main():
-#     #get our data as an array from read_in()
-#     lines = read_in()
-
-#     #create a numpy array
-#     np_lines = np.array(lines)
-
-#     #use numpys sum method to find sum of all elements in the array
-#     lines_sum = np.sum(np_lines)
-
-#     #return the sum to the output stream
-#     print lines_sum
 
 def read_in():
     lines = sys.stdin.readlines()
@@ -26,11 +12,10 @@ def read_in():
 
 def main():
     url = read_in()   # url = "http://yahoo.com"
-    print(url)
-    # url = "http://yahoo.com"
+    # url = "http://abcnews.com.co/obama-executive-order-bans-pledge-of-allegiance-in-schools/"
     # url = json.loads(lines[0])
     scraper = NewsScrapper(url)
-    print(scraper.sources)
+    # print(scraper.sources)
     result = json.dumps({"source": scraper.sources, "text": scraper.text})
     # print("hello")
     print(result)

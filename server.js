@@ -3,24 +3,35 @@ const express       = require('express');
 const app           = express();
 const bodyParser    = require("body-parser");
 const PORT          = process.env.PORT || 3000;
+const siteCheckerService = require('./services/siteChecker');
+const sentiment = require("./sentiment.js")
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', function(req, res){
-    res.render('index');
+    return res.render('index');
 });
 
 app.post('/analyse', function(req, res) {
-    const siteCheckerService = require('./services/siteChecker');
-
-    siteCheckerService.getResult(req.body.url).then(result => {
-        res.render('analysis', {
-            result: JSON.stringify(result)
+  var sentimentPercentage = 0;
+  return sentiment.getSentimentPromise(req.body.url)
+    .then(function(data){
+    sentimentPercentage = data
+    return siteCheckerService.getResult(req.body.url)
+    })
+    .then(result => {
+         return res.render('analysis', {
+            result: JSON.stringify(result),
+            sentiment: sentimentPercentage
         });
+    })
+    .catch((error) => {
+      console.log("Error", error)
+    })
     });
 
-});
+
 
 app.listen(PORT, () => {
     console.log("Against Fake News listening on port " + PORT);
