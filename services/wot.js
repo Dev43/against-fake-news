@@ -41,10 +41,23 @@ function transformData(data) {
     return new Promise((resolve) => {
         const domain = extractDomain(data.url);
 
+        const categoriesConfig = require('../config/categories').categories;
+
+        let wotCategories = data.data[domain].categories;
+
+        let categories = [];
+
+        for (let cat in wotCategories) {
+            categories.push({
+                value: cat,
+                name: categoriesConfig[cat]
+            });
+        }
+
         resolve({
             reputation: data.data[domain]['0'][0],
             confidence: data.data[domain]['0'][1],
-            categories: data.data[domain].categories
+            categories: categories
         });
     });
 }

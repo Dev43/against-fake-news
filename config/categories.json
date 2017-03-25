@@ -1,0 +1,23 @@
+{
+	"categories": {
+
+		"101": "Malware or viruses",
+		"102": "Poor customer experience",
+		"103": "Phishing",
+		"104": "Scam",
+		"105": "Potentially illegal",
+		"201": "Misleading claims or unethical",
+		"202": "Privacy risks",
+		"203": "Suspicious",
+		"204": "Hate, discrimination",
+		"205": "Spam",
+		"206": "Potentially unwanted programs",
+		"207": "Ads / pop-ups",
+		"301": "Online tracking",
+		"302": "Alternative or controversial medicine",
+		"303": "Opinions, religion, politics",
+		"304": "Other",
+		"501": "Good site"
+	}
+
+}
