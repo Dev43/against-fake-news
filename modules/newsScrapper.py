@@ -1,5 +1,5 @@
 import requests
-import json, sys, numpy as np
+import json
 from bs4 import BeautifulSoup
 #from sklearn.feature_extraction.text import CountVectorizer
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -12,72 +12,118 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 class NewsScrapper():
+    def __init__(self, link):
+            self.link = link
+            self.html = self._getHtml()
+            self.text = self.scrap()
+            self.links = self._getLinks()
+            self.sources = self.getSource()
 
-        def __init__(self, link):
-                self.link = link
-                self.html = self._getHtml()
-                self.text = self.scrap()
-                self.links = self._getLinks()
 
-        def scrap(self):
-            r = self._getHtml()
-            soup = BeautifulSoup(r.text, 'lxml')
-            #clean the received html
-            html_cleaned = self._cleanHtml(soup)
+    def scrap(self):
 
-            #create a dictionary structure {company : {index : {site,
-            #raw_text}
-            dataText = html_cleaned
+        r = self.html
+        soup = BeautifulSoup(r.text, 'lxml')
+        #clean the received html
+        html_cleaned = self._cleanHtml(soup)
 
-            return dataText
+        #create a dictionary structure {company : {index : {site,
+        #raw_text}
+        dataText = html_cleaned
+        return dataText
 
-        def _getHtml(self):
-            l = self.link
-            # make sure link starts with http in order to scrap it
-            if l[0:4] != 'http':
-                    l = 'http://'+l
-            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
-            r = requests.get(l, headers=headers)
+    def getSource(self):
+        links = self.links
+        sources = set()
+        hostname = (urlparse(self.link).hostname)[4:] if (urlparse(self.link).hostname)[:4] == 'www.' else urlparse(self.link).hostname
+        for link in links:
+            prsd = urlparse(link)
+            if prsd.hostname != None and hostname not in prsd.hostname:
+                sources.add(prsd.hostname)
+        sources = [source for source in sources]
+        return sources
 
-            '''
-            except:
-                    print('Error over here !')
-                    data_dict = {'url': l, 'raw_text': None}
-                    company_dict[index] = data_dict
-                    index += 1
-                    continue
-            '''
-            if r.status_code // 100 != 2:
-                    print(r.status_code)
-                    return None
-            return r
 
-        def _cleanHtml(self, html):
-            for script in html(["script", "style"]): # remove all javascript and stylesheet code
-                    script.extract()
-            # get text
-            text = html.get_text()
-            # break into lines and remove leading and trailing space on each
-            lines = (line.strip() for line in text.splitlines())
-            # break multi-headlines into a line each
-            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-            # drop blank lines
-            text = '. '.join(chunk for chunk in chunks if chunk)
-            return text
+    def _getHtml(self):
+        l = self.link
+        # make sure link starts with http in order to scrap it
+        if l[0:4] != 'http':
+                l = 'http://'+l
+        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'}
+        r = requests.get(l, headers=headers)
 
-        def _getLinks(self):
-            r = self._getHtml()
-            soup = BeautifulSoup(r.text, 'lxml')
-            links = []
-            for link in soup.find_all('a'):
-                    links.append(link.get('href'))
-            return links
-'''
-def main()
-    lines = sys.stdin.readlines()
-    url = json.loads(lines[0])
-    scraper = NewsScrapper()
-'''
+        '''
+        except:
+                print('Error over here !')
+                data_dict = {'url': l, 'raw_text': None}
+                company_dict[index] = data_dict
+                index += 1
+                continue
+        '''
+        if r.status_code // 100 != 2:
+                print(r.status_code)
+                return None
+        return r
+
+    def _cleanHtml(self, html):
+        for script in html(["script", "style"]): # remove all javascript and stylesheet code
+                script.extract()
+        # get text
+        text = html.get_text()
+        # break into lines and remove leading and trailing space on each
+        lines = (line.strip() for line in text.splitlines())
+        # break multi-headlines into a line each
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        # drop blank lines
+        text = '. '.join(chunk for chunk in chunks if chunk)
+        return text
+
+    def _getLinks(self):
+        r = self.html
+        soup = BeautifulSoup(r.text, 'lxml')
+        links = []
+        for link in soup.find_all('a'):
+                links.append(link.get('href'))
+        return links
+
+
+# print("hello")
+# def read_in():
+#     lines = sys.stdin.readlines()
+#     #Since our input would only be having one line, parse our JSON data from that
+#     return json.loads(lines[0])
+
+# def main():
+#     #get our data as an array from read_in()
+#     lines = read_in()
+
+#     #create a numpy array
+#     np_lines = np.array(lines)
+
+#     #use numpys sum method to find sum of all elements in the array
+#     lines_sum = np.sum(np_lines)
+
+#     #return the sum to the output stream
+#     print lines_sum
+
+# #start process
+# if __name__ == '__main__':
+#     main()
+
+# def main():
+#     url = read_in()
+#     # url = "http://yahoo.com"
+#     # url = json.loads(lines[0])
+#     scraper = NewsScrapper(url)
+#     print(scraper.sources)
+#     result = json.dumps({"source": scraper.sources, "text": scraper.text})
+#     # print("hello")
+#     print(result)
+#     # return result
+
+
+
+
 
 '''
         def mine(self, search_engine = 'google_scrap', count = 5):
