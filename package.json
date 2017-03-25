@@ -1,0 +1,30 @@
+{
+  "name": "against-fake-news",
+  "version": "1.0.0",
+  "description": "App that will flag fake news",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "local": "./node_modules/.bin/nodemon --watch server.js -e js server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dev43/against-fake-news.git"
+  },
+  "author": "Hackathon Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dev43/against-fake-news/issues"
+  },
+  "homepage": "https://github.com/Dev43/against-fake-news#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "dotenv": "^4.0.0",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.8.1"
+  }
+}
