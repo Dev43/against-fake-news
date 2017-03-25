@@ -17,6 +17,7 @@ app.get('/', function(req, res){
 app.post('/analyse', function(req, res) {
   // L'information necessaire (le URL est dans req.body.url -- le reste est de passe
   // ce URL a l'analyse)
+  console.log(req.body.url)
 
   // Ppour passer les resultats de l'analyse, on les passes dans un obnjet quand on render
 
