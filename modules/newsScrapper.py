@@ -18,6 +18,7 @@ class NewsScrapper():
             self.text = self.scrap()
             self.links = self._getLinks()
             self.sources = self.getSource()
+            self.title = self._getTitle()
 
 
     def scrap(self):
@@ -86,43 +87,10 @@ class NewsScrapper():
                 links.append(link.get('href'))
         return links
 
-
-# print("hello")
-# def read_in():
-#     lines = sys.stdin.readlines()
-#     #Since our input would only be having one line, parse our JSON data from that
-#     return json.loads(lines[0])
-
-# def main():
-#     #get our data as an array from read_in()
-#     lines = read_in()
-
-#     #create a numpy array
-#     np_lines = np.array(lines)
-
-#     #use numpys sum method to find sum of all elements in the array
-#     lines_sum = np.sum(np_lines)
-
-#     #return the sum to the output stream
-#     print lines_sum
-
-# #start process
-# if __name__ == '__main__':
-#     main()
-
-# def main():
-#     url = read_in()
-#     # url = "http://yahoo.com"
-#     # url = json.loads(lines[0])
-#     scraper = NewsScrapper(url)
-#     print(scraper.sources)
-#     result = json.dumps({"source": scraper.sources, "text": scraper.text})
-#     # print("hello")
-#     print(result)
-#     # return result
-
-
-
+    def _getTitle(self):
+        r = self.html
+        soup = BeautifulSoup(r.text, 'lxml')
+        return (soup.find('h1')).string
 
 
 '''
