@@ -44,7 +44,8 @@ app.post('/analyse', function(req, res) {
           result: JSON.stringify(result),
           sentiment: JSON.stringify(sentimentObject),
           isSatirical: JSON.stringify(isSatirical),
-          articles: JSON.stringify(articles)
+          articles: articles,
+	  totalScore: Math.random*100
       });
   })
   .catch((error) => {

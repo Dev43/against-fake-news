@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
 	<% include ./partials/_header %>
 	<body class="mdc-typography">
 		<div class="container" id="container-article-all">
@@ -21,23 +20,17 @@
 					<div class="mdc-grid-list">
 						<ul id="related-articles" class="mdc-grid-list__tiles">
 							<%for(var i=0; i<articles.length; i++) {%>
+							<% var alt = articles[i].image.alt != null ? articles[i].image.alt : "Image de l'article non accessible"%>
+							<% var src = articles[i].image.href != null ? articles[i].image.href : "public/thumbnail-radio-canada.png"%>
 							<li class="mdc-grid-tile">
 								<div class="mdc-grid-tile__primary">
-									<img class="mdc-grid-tile__primary-content" src="my-image.jpg" />
+									<img class="mdc-grid-tile__primary-content" alt="<%alt%>"src="<%=src%>" />
+								
 								</div>
 								<span class="mdc-grid-tile__secondary">
-									<span class="mdc-grid-tile__title">Title</span>
+									<a href="<%articles[i].link%>"><span class="mdc-grid-tile__title"><%=articles[i].title%></span></a>
 								</span>
 							</li>
-							<li class="mdc-grid-tile">
-								<div class="mdc-grid-tile__primary">
-									<img class="mdc-grid-tile__primary-content" src="my-image.jpg" />
-								</div>
-								<span class="mdc-grid-tile__secondary">
-									<span class="mdc-grid-tile__title">Title</span>
-								</span>
-							</li>
-
 							<% }%>
 						</ul>
 
