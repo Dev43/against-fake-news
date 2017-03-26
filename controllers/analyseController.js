@@ -18,12 +18,15 @@ function post(req, res) {
         relatedArticles.getRelated(req.body.url),
         siteChecker.getResult(url)
     ]).then(results => {
+        console.log(results)
         return res.render('analysis', {
             sentiment: JSON.stringify(results[0]),
             articles: JSON.stringify(results[1]),
             result: JSON.stringify(results[2]),
             isSatirical: JSON.stringify(isSatirical)
         });
+    }).catch((err) => {
+        console.log("Error, the error is", err)
     });
 
 }

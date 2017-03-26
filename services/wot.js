@@ -49,7 +49,7 @@ function transformData(data) {
         let wotCategories = data.data[domain].categories;
 
         let categories = [];
-
+        console.log(data)
         for (let cat in wotCategories) {
             categories.push({
                 value: cat,
@@ -67,5 +67,6 @@ function transformData(data) {
 
 function extractDomain(url) {
     let domain = url.replace('http://','').replace('https://','').split(/[/?#]/)[0];
+    console.log(domain)
     return domain;
 }

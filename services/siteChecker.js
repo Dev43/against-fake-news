@@ -18,13 +18,19 @@ function getResult(url) {
             let sentimentResult = results[2];
 
             console.log(sentimentResult.sources);
-
-            Promise.all(sentimentResult.sources.map(url => wotService.getResult(url))).then(wotResults => {
-                resolve(calculate(results));
+            return Promise.all(sentimentResult.sources.map((url, index) => {
+                while(index < 3){
+                    return wotService.getResult(url)
+                }
+                return;
+            }))
+            .then((wotResults) => {
+                console.log("HI")
+                return resolve(calculate(results));
             });
 
         })
-        .catch(reject);
+        .catch((err) => console.log);
     });
 }
 
