@@ -1,18 +1,19 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'start' ]
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'run', 'local' ]
 2 info using npm@4.1.2
 3 info using node@v7.7.3
-4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info lifecycle against-fake-news@1.0.0~prestart: against-fake-news@1.0.0
-6 silly lifecycle against-fake-news@1.0.0~prestart: no script for prestart, continuing
-7 info lifecycle against-fake-news@1.0.0~start: against-fake-news@1.0.0
-8 verbose lifecycle against-fake-news@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle against-fake-news@1.0.0~start: PATH: /usr/lib/node_modules/npm/bin/node-gyp-bin:/home/patrick/Documents/Code/against-fake-news/node_modules/.bin:/home/patrick/.npm-global/bin:/home/patrick/bin:/home/patrick/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/patrick/bin
-10 verbose lifecycle against-fake-news@1.0.0~start: CWD: /home/patrick/Documents/Code/against-fake-news
-11 silly lifecycle against-fake-news@1.0.0~start: Args: [ '-c', 'sudo node server.js' ]
-12 silly lifecycle against-fake-news@1.0.0~start: Returned: code: 1  signal: null
-13 info lifecycle against-fake-news@1.0.0~start: Failed to exec start script
-14 verbose stack Error: against-fake-news@1.0.0 start: `sudo node server.js`
+4 verbose run-script [ 'prelocal', 'local', 'postlocal' ]
+5 info lifecycle against-fake-news@1.0.0~prelocal: against-fake-news@1.0.0
+6 silly lifecycle against-fake-news@1.0.0~prelocal: no script for prelocal, continuing
+7 info lifecycle against-fake-news@1.0.0~local: against-fake-news@1.0.0
+8 verbose lifecycle against-fake-news@1.0.0~local: unsafe-perm in lifecycle true
+9 verbose lifecycle against-fake-news@1.0.0~local: PATH: /usr/lib/node_modules/npm/bin/node-gyp-bin:/home/patrick/Documents/Code/against-fake-news/node_modules/.bin:/home/patrick/.npm-global/bin:/home/patrick/bin:/home/patrick/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/patrick/bin
+10 verbose lifecycle against-fake-news@1.0.0~local: CWD: /home/patrick/Documents/Code/against-fake-news
+11 silly lifecycle against-fake-news@1.0.0~local: Args: [ '-c',
+11 silly lifecycle   'nodemon --watch server.js -e js server.js --watch sentiment.js' ]
+12 silly lifecycle against-fake-news@1.0.0~local: Returned: code: 1  signal: null
+13 info lifecycle against-fake-news@1.0.0~local: Failed to exec local script
+14 verbose stack Error: against-fake-news@1.0.0 local: `nodemon --watch server.js -e js server.js --watch sentiment.js`
 14 verbose stack Exit status 1
 14 verbose stack     at EventEmitter.<anonymous> (/usr/lib/node_modules/npm/lib/utils/lifecycle.js:279:16)
 14 verbose stack     at emitTwo (events.js:106:13)
@@ -25,18 +26,18 @@
 15 verbose pkgid against-fake-news@1.0.0
 16 verbose cwd /home/patrick/Documents/Code/against-fake-news
 17 error Linux 4.4.0-67-generic
-18 error argv "/usr/bin/nodejs" "/usr/bin/npm" "start"
+18 error argv "/usr/bin/nodejs" "/usr/bin/npm" "run" "local"
 19 error node v7.7.3
 20 error npm  v4.1.2
 21 error code ELIFECYCLE
-22 error against-fake-news@1.0.0 start: `sudo node server.js`
+22 error against-fake-news@1.0.0 local: `nodemon --watch server.js -e js server.js --watch sentiment.js`
 22 error Exit status 1
-23 error Failed at the against-fake-news@1.0.0 start script 'sudo node server.js'.
+23 error Failed at the against-fake-news@1.0.0 local script 'nodemon --watch server.js -e js server.js --watch sentiment.js'.
 23 error Make sure you have the latest version of node.js and npm installed.
 23 error If you do, this is most likely a problem with the against-fake-news package,
 23 error not with npm itself.
 23 error Tell the author that this fails on your system:
-23 error     sudo node server.js
+23 error     nodemon --watch server.js -e js server.js --watch sentiment.js
 23 error You can get information on how to open an issue for this project with:
 23 error     npm bugs against-fake-news
 23 error Or if that isn't available, you can get their info via:
