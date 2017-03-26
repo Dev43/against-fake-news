@@ -9,35 +9,35 @@ class RadioRelated():
 
 
     def getRelated(self):
-        #url = 'https://dev-services.radio-canada.ca/hackathon2017/sitesearch/v1/internal/rcgraph/indexable-content-summaries'
-        #params = {'Q' : self.title, 'contentTypeIds': '11, 52'}
-        #headers = {'authorization' : 'Client-Key 31e51cda-4ab0-4234-83c2-25d503c69487'}  
-
-        url = 'https://news.google.com/news'
-        siteConstraint= ' site:ici.radio-canada.ca'
-        params = {'q' : self.title+siteConstraint, 'output': 'rss', 'hl':'fr', 'as_sitesearch': 'ici.radio-canada.ca'}
-
-
-        r = requests.get(url, params=params)
-        soup = BeautifulSoup(r.text, 'lxml')
-        items = [item for item in soup.find_all('item')]
         links = []
-        for item in items:
-            link = ''
-            breakCheck = 0
-            for it in item.find_all('guid'):
-                for i in range(0, len(it.text)-1):
-                    if (it.text)[i:i+4] == 'http':
-                        while True:
-                            try:
-                                link += (it.text)[i]
-                            except IndexError:
-                                links.append(link)
-                                breakCheck = 1
-                                break
-                            i += 1
-                if breakCheck == 1:
-                    break
+        for i in range(0, 2):
+            if links != []:
+                break
+            url = 'https://news.google.com/news'
+            siteConstraint= 'site:ici.radio-canada.ca'
+            q = (self.title+siteConstraint, siteConstraint)
+            params = {'q' : q[i], 'output': 'rss', 'hl':'fr', 'as_sitesearch': 'ici.radio-canada.ca'}
+
+            r = requests.get(url, params=params)
+
+            soup = BeautifulSoup(r.text, 'lxml')
+            items = [item for item in soup.find_all('item')]
+            for item in items:
+                link = ''
+                breakCheck = 0
+                for it in item.find_all('guid'):
+                    for i in range(0, len(it.text)-1):
+                        if (it.text)[i:i+4] == 'http':
+                            while True:
+                                try:
+                                    link += (it.text)[i]
+                                except IndexError:
+                                    links.append(link)
+                                    breakCheck = 1
+                                    break
+                                i += 1
+                    if breakCheck == 1:
+                        break
 
         '''
             print(item.text)
@@ -66,11 +66,16 @@ class RadioRelated():
             try:
                 alt = article['summaryMultimediaItem']['alt']
                 href = article['summaryMultimediaItem']['concreteImages'][0]['mediaLink']['href']
-            except KeyError:
+            except (KeyError, TypeError):
                 alt = "Image de l'article"
-                href = article['summaryMultimediaContentForDetail']['summaryImage']['concreteImages'][0]['mediaLink']['href'] 
-
-            articles.append({
+                try:
+                    href = article['summaryMultimediaContentForDetail']['summaryImage']['concreteImages'][0]['mediaLink']['href'] 
+                except KeyError:
+                    try:
+                        href = article['summaryMultimediaItem']['concreteImages'][0]['mediaLink']['href']
+                    except TypeError: 
+                        href = None
+                articles.append({
                 'link': article['selfLink'], 
                 'title': article['title'], 
                 'summary': article['summary'], 
@@ -89,6 +94,6 @@ class RadioRelated():
                 urlL[3] = contentType[urlL[3]]
         return (urlL[3], urlL[4])
 
-RR = RadioRelated('Réunion Emmanuel Macron')
-links = RR.getRelated()
-articles = RR.neuroCanada(links)
+#RR = RadioRelated('Drug Kingpin Joaquin')
+#links = RR.getRelated()
+#articles = RR.neuroCanada(links)
