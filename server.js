@@ -6,6 +6,8 @@ const PORT          = process.env.PORT || 3000;
 const siteCheckerService = require('./services/siteChecker');
 const sentiment = require("./sentiment.js")
 
+const Promise       = require('bluebird');
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))
 
