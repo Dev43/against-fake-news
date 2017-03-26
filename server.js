@@ -9,6 +9,8 @@ const satiricalDB = require("./satirical_sites_db")
 
 const Promise       = require('bluebird');
 
+
+
 app.use(express.static('public'))
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))

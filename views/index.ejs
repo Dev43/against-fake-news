@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html>
-				<% include ./partials/_header %>
+	<% include ./partials/_header %>
+	<style> 
+#logo-rc {
+	max-width: 100%;
+}
 
-				<body>
-								<div class="container">
-												<div class="row">
-																<div class="offset-xs-2 col-xs-4">
-																				<h1>Alètheia <span>- Vérificateur de source</span></h1>
-																</div>
-																<div class="offset-xs-2 col-xs-4">
-																				<img alt="logo-radio-canada" src="/img/logo_radio_canada.jpg">
-																</div>
-												</div>
+	</style>
+	<body class="mdc-typography">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-8">
+					<h1 class="mdc-typography--display4">Alètheia <span class="mdc-typography--display2">- Vérificateur de source</span></h1>
+				</div>
+				<div class="col-xs-4">
+					<img id="logo-rc" alt="logo-radio-canada" src="/img/logo_radio_canada.jpg">
+				</div>
+			</div>
+			<div class="row">
+				<form action="/analyse" method="POST">
+					<div class="row mdc-textfield">
 
-												<div class="row">
+						<input id="article" class="mdc-textfield__input" type="text" name="url">
+						<label for="article" class="mdc-textfield__label">Entrez votre url</label>
+					</div>
+					<div>
+						<button class="mdc-button mdc-button--raised">
+							Analyser	
+						</button>
+					</div>
 
-																<form action="/analyse" method="POST">
-																				<input class="form-control" type="text" name="url" placeholder="URL de l'article" autofocus>
-																				<input class="btn btn-default form-submit" type="submit">
-																</form>
-												</div>
-								</div>
-
-				</body>
+				</form>
+			</div>
+			<script>
+mdc.textfield.MDCTextfield.attachTo(document.querySelector('.mdc-textfield'));
+			</script>
+	</body>
 
 </html>
