@@ -15,7 +15,7 @@ const urls = {
     ]
 };
 
-require('./services/dateCheck').check(urls.dateInUrlAndText[0]).then(date => {
+require('./services/dateCheck').check(urls.dateInText[0]).then(date => {
     console.log(date);
 }).catch(reason => {
     console.log(reason);
