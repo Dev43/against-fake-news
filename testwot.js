@@ -20,3 +20,7 @@ require('./services/dateCheck').check(urls.dateInText[0]).then(date => {
 }).catch(reason => {
     console.log(reason);
 });
+
+require('./services/siteChecker').getResult(urls.dateInText[0]).then(result => {
+    console.log(result);
+});
