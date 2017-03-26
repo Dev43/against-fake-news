@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html>
- <% include ./partials/_header %>
-  <body>
-    <p>Analyse de l'article</p>
-    <p><%= result %></p>
-    <p><%= sentiment %></p>
-    <p><%= isSatirical %></p>
-    So far ce qui est accessible:
+	<% include ./partials/_header %>
+	<body class="mdc-typography">
+		<div class="container" id="container-article-all">
+			<div class="row">
+				<div class="col-xs-8">
 
-    WOT data
-    Seintiment analysis et Language analysis
-    isSatirical Website boolean
-    <a href="/">Return home</a>
-  </body>
+					<p>Analyse de l'article</p>
+					<p><%= result %></p>
+					<p><%= sentiment %></p>
+					<p><%= isSatirical %></p>
+					So far ce qui est accessible:
+
+					WOT data
+					Seintiment analysis et Language analysis
+					isSatirical Website boolean
+					<a href="/">Return home</a>
+				</div>
+				<div class="col-xs-4">
+					<div class="mdc-grid-list">
+						<ul id="related-articles" class="mdc-grid-list__tiles">
+							<%for(var i=0; i<articles.length; i++) {%>
+							<li class="mdc-grid-tile">
+								<div class="mdc-grid-tile__primary">
+									<img class="mdc-grid-tile__primary-content" src="my-image.jpg" />
+								</div>
+								<span class="mdc-grid-tile__secondary">
+									<span class="mdc-grid-tile__title">Title</span>
+								</span>
+							</li>
+							<li class="mdc-grid-tile">
+								<div class="mdc-grid-tile__primary">
+									<img class="mdc-grid-tile__primary-content" src="my-image.jpg" />
+								</div>
+								<span class="mdc-grid-tile__secondary">
+									<span class="mdc-grid-tile__title">Title</span>
+								</span>
+							</li>
+
+							<% }%>
+						</ul>
+
+					</div>
+
+				</div>
+			</div>
+
+	</body>
 </html>
