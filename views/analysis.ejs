@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<% include ./partials/_header %>
 	<style>
 .container-result-global {
@@ -22,13 +22,16 @@
 .bad i, .good i, .neutral i {
 	font-size: 70px;
 }
+#articles-grid {
+	margin: 0 auto;
+}
 
 	</style>
 	<body class="mdc-typography">
 
 		<div class="container" id="container-article-all">
 
-			<a href="/">Return home</a>
+			<% include ./partials/_top %>
 			<div class="row">
 				<%
 	if(totalScore < 50) { %>
@@ -40,15 +43,17 @@
 	<% } %>
 			</div>
 			<div class="row">
-				<div class="col-xs-6">
+				<div style="text-align:center;"> 
 					<h2>Détails de l'article</h2>
+				</div>
+				<div class="col-xs-5">
 					<div>
 						<h3>Sentiment</h3>
 						<p>
 						<% if(JSON.parse(sentiment).sentiment_avg < 0.4 || JSON.parse(sentiment).sentiment_avg > 0.6) { %>
-						Ce site nous paraît subjectif. Faîtes attention aux opinions biaisées.
+						Le contenu nous paraît subjectif. Faîtes attention aux opinions biaisées.
 						<% } else { %>
-						Ce site nous paraît objectif.
+						Le contenu nous paraît objectif.
 						<% } %>
 						</p>
 					</div>
@@ -59,15 +64,15 @@
 					</div>
 					<% } %>
 				</div>
-			</div>
-			<div class="col-ws-6">
+				<div class="col-xs-2"></div>
+				<div class="col-xs-5">
 				<h2>Recommendations:</h2>
 				<div>
 					<% if(result != null) { %>
 					<p>Le site est classifié comme :
 					<ul>
-						<% for(var i=0; i< JSON.parse(result).length; i++) { %>
-						<li> <%= JSON.parse(result)[i].name %> </li>
+						<% for(var i=0; i< description.length; i++) { %>
+						<li> <%= description[i] %> </li>
 						<% } %>
 					</ul>
 					<% } else { %>
@@ -79,22 +84,25 @@
 			</div>
 
 		</div>
-		<div class="row">
+		<div class="row" style="margin-top:48px;">
+			<div style="text-align:center">
+				<h2>Articles connexes</h2>
+			</div>
 			<div class="col-xs-12">
-				<div class="mdc-grid-list">
+				<div class="mdc-grid-list" id="articles-grid">
 					<ul id="related-articles" class="mdc-grid-list__tiles">
 					<% var articles = JSON.parse(articles)%>
 						<% for(var i=0; i<articles.length; i++) { %>
 
 						<% var alt = articles[i].image.hasOwnProperty("alt")  ? articles[i].image.alt : "Image de l'article non accessible"%>
 						<% var src = articles[i].image.hasOwnProperty("href") ? articles[i].image.href : "public/thumbnail-radio-canada.png"%>
-						<li class="mdc-grid-tile">
+						<li class="mdc-grid-tile" style="margin: 0 auto;">
 							<div class="mdc-grid-tile__primary">
 								<img class="mdc-grid-tile__primary-content" alt="<%alt%>"src="<%= src %>" />
 
 							</div>
-							<span class="mdc-grid-tile__secondary">
-								<a href="<%=  articles[i].link %>"><span class="mdc-grid-tile__title"><%= articles[i].title %></span></a>
+							<span class="mdc-grid-tile__secondary" style="background-color:white">
+								<a href="<%=  articles[i].link %>" style="color:black"><span class="mdc-grid-tile__title"><%= articles[i].title %></span></a>
 							</span>
 						</li>
 						<% } %>
@@ -105,5 +113,6 @@
 			</div>
 		</div>
 
+			<% include ./partials/_footer %>
 	</body>
 </html>

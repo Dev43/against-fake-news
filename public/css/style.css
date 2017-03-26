@@ -1,0 +1,34 @@
+#logo-rc {
+	max-width: 100%;
+}
+#logo-aletheia {
+	line-height:3rem;
+}
+#input-container {
+	width: 300px;
+	height: 300px;
+	padding: 14px;
+	margin: 0 auto;
+	text-align: center;
+	#background-color:#242042;
+}
+#input-field-article {
+	width:100%;
+	margin-top:48px;
+}
+#article-submit {
+	margin-top: 14px;
+}
+#article-submit button {
+}
+#information-text-container {
+	width: 40%;
+	text-align: center;
+	margin: 48px auto 0 auto;
+}
+#container-article-all {
+	margin-top:14px;
+}
+#input-field-article {
+	font-size: 14px;
+}

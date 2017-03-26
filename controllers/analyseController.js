@@ -12,7 +12,7 @@ function post(req, res) {
     const url = req.body.url;
 
     let isSatirical = satirical.isSatirical(url);
-    let totalScore = Math.random()*100
+    var totalScore = Math.random()*100
 
     Promise.all([
         // sentiment.getSentimentPromise(req.body.url),
@@ -28,7 +28,7 @@ function post(req, res) {
             articles: JSON.stringify(results[0].relatedArticles),
             result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
-            description: cleanCategories(results[1])
+            description: cleanCategories(results[1]),
 	    totalScore: totalScore
         });
     }).catch((err) => {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<% include ./partials/_header %>
 	<style> 
 #logo-rc {
@@ -40,14 +40,7 @@
 	</style>
 	<body class="mdc-typography">
 		<div class="container" id="container-article-all">
-			<div class="row">
-				<div class="col-xs-8">
-					<h1 class="mdc-typography--display4" id="logo-aletheia">Alètheia<br> <span class="mdc-typography--display2"> Vérificateur de source</span></h1>
-				</div>
-				<div class="col-xs-4">
-					<img id="logo-rc" alt="logo-radio-canada" src="/img/logo_radio_canada.jpg">
-				</div>
-			</div>
+			<% include ./partials/_top %>
 			<div id="information-text-container">
 				<h2 class="mdc-typography--headline">Vous n'êtes pas sûr d'une information et vous avez besoin de la confirmer ? Alètheia est une plateforme intelligente qui a pour but de mettre à jour les fausses informations. Entrez simplement le lien d'un article à vérifier dans le champ ci-dessous.</h2>
 			</div>
@@ -55,8 +48,8 @@
 
 				<form action="/analyse" method="POST">
 					<div class="row mdc-textfield" id="input-field-article">
-						<input id="article" class="mdc-textfield__input" type="text" name="url">
 						<label for="article" class="mdc-textfield__label">Entrez votre url</label>
+						<input id="article" class="mdc-textfield__input" type="text" name="url">
 					</div>
 					<div id="article-submit">
 						<button class="mdc-button mdc-button--raised">
@@ -65,6 +58,7 @@
 					</div>
 				</form>
 			</div>
+			<% include ./partials/_footer %>
 			<script>
 mdc.textfield.MDCTextfield.attachTo(document.querySelector('.mdc-textfield'));
 			</script>
