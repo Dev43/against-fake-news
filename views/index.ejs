@@ -5,31 +5,61 @@
 #logo-rc {
 	max-width: 100%;
 }
+#logo-aletheia {
+	line-height:3rem;
+}
+#input-container {
+	width: 300px;
+	height: 300px;
+	padding: 14px;
+	margin: 0 auto;
+	text-align: center;
+	#background-color:#242042;
+}
+#input-field-article {
+	width:70%;
+	margin-top:48px;
+}
+#article-submit {
+	margin-top: 14px;
+}
+#article-submit button {
+}
+#information-text-container {
+	width: 40%;
+	text-align: center;
+	margin: 48px auto 0 auto;
+}
+#container-article-all {
+	margin-top:14px;
+}
 
 	</style>
 	<body class="mdc-typography">
-		<div class="container">
+		<div class="container" id="container-article-all>
 			<div class="row">
 				<div class="col-xs-8">
-					<h1 class="mdc-typography--display4">Alètheia <span class="mdc-typography--display2">- Vérificateur de source</span></h1>
+					<h1 class="mdc-typography--display4" id="logo-aletheia">Alètheia<br> <span class="mdc-typography--display2"> Vérificateur de source</span></h1>
 				</div>
 				<div class="col-xs-4">
 					<img id="logo-rc" alt="logo-radio-canada" src="/img/logo_radio_canada.jpg">
 				</div>
 			</div>
-			<div class="row">
-				<form action="/analyse" method="POST">
-					<div class="row mdc-textfield">
+			<div id="information-text-container">
+				<h2 class="mdc-typography--headline">Vous n'êtes pas sûr d'une information et vous avez besoin de la confirmer ? Alètheia est une plateforme intelligente qui a pour but de mettre à jour les fausses informations. Entrez simplement le lien d'un article à vérifier dans le champs ci-dessous.</h2>
+			</div>
+			<div class="row" id="input-container">
 
+				<form action="/analyse" method="POST">
+					<div class="row mdc-textfield" id="input-field-article">
 						<input id="article" class="mdc-textfield__input" type="text" name="url">
 						<label for="article" class="mdc-textfield__label">Entrez votre url</label>
 					</div>
-					<div>
+					<div id="article-submit">
 						<button class="mdc-button mdc-button--raised">
 							Analyser	
 						</button>
 					</div>
-
 				</form>
 			</div>
 			<script>
