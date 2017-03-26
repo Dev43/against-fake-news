@@ -32,7 +32,6 @@ function post(req, res) {
             result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
             description: cleanCategories(results[1]),
-
 	       totalScore: getScore(results[1]),
 	       score: getScore(results[1])
         });
@@ -47,7 +46,7 @@ function cleanCategories(resultFromWot){
     var newCategories = []
         resultFromWot.wotResult.categories.forEach(function(category) {
             console.log(category.name)
-            if(newCategories.indexOf(category.name)){
+            if(newCategories.indexOf(category.name) ){
                 newCategories.push(category.name)
             }
         })

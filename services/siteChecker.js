@@ -49,7 +49,7 @@ function calculate(results) {
     let t = sentimentResult.scoreTitle / 100;
     console.log(f,r,c,s,t)
 
-    let score = 0.5 * (r * c * f) + t + s//d;
+    let score = (0.5 * (r * c * f) + t + s) *100//d;
     console.log("the score is", score)
     return {score: score, wotResult: wotResult, dateResult: dateResult, sentimentResult: sentimentResult};
 }
