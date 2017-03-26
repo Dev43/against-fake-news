@@ -98,12 +98,15 @@ function parseWebsite(url){
 
     py.stdout.on('end', function(){
       dataString = JSON.parse(dataString)
+      var scoreTitle = dataString.scoreTitle;
+      var sources = dataString.source
+      // console.log(dataString)
       let sentencesArray = dataString.text.split(".").filter((element) => {
         return element.length > 20 // cannot be null
       }) // filter it more
 
       py.kill();
-      resolve(sentencesArray)
+      resolve({sentences: sentencesArray, scores: scoreTitle, sources: sources})
     });
 
     py.stdin.write(JSON.stringify(url));
@@ -120,11 +123,14 @@ module.exports = {
 
   getSentimentPromise: function(url){
     let dataObject = {}
-    let theData
+    let theData;
+
     return parseWebsite(url)
     .then((data) => {
-      theData = data
-      return sendRequest(data, SENTIMENT_URL)
+      theData = data.sentences
+      dataObject["scoreTitle"] = data.scores;
+      dataObject["sources"] = data.sources
+      return sendRequest(theData, SENTIMENT_URL)
     })
     .then((avg) => {
       console.log(avg)

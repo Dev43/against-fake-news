@@ -37,6 +37,7 @@ app.post('/analyse', function(req, res) {
   })
   .then(function(data){
   sentimentObject = data
+  console.log(data)
   return siteCheckerService.getResult(req.body.url)
   })
   .then((result) => {
