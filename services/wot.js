@@ -9,8 +9,11 @@ module.exports = {
 
 function getResult(url) {
     this.url = url;
-    return new Promise((resolve) => {
-        requestApi(url).then(transformData).then(resolve);
+    return new Promise((resolve, reject) => {
+        requestApi(url)
+            .then(transformData)
+            .then(resolve)
+            .catch(reject);
     });
 };
 
