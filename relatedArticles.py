@@ -17,7 +17,7 @@ def main():
     scraper = NewsScrapper(url)
     Rr = RadioRelated(scraper.title)
     links = Rr.getRelated()
-    result = json.dumps({"title": scraper.title, "relatedArticles": Rr.neuroCanada(links), "scoreTitle": scraper.titleScore})
+    result = json.dumps({"title": scraper.title, "relatedArticles": Rr.neuroCanada(links)})
     print(result)
 
 if __name__ == '__main__':
