@@ -2,6 +2,7 @@
 
 import sys, json
 from modules.newsScrapper import NewsScrapper
+from modules.radioC import RadioRelated
 
 #Read data from stdin
 
@@ -14,7 +15,9 @@ def main():
     url = read_in()   # url = "http://yahoo.com"
     #url = "http://abcnews.com.co/breaking-capitol-hill-shooter-identified-as-right-wing-extremist/"
     scraper = NewsScrapper(url)
-    result = json.dumps({"source": scraper.sources, "text": scraper.text})
+    Rr = RadioRelated(scraper.title)
+    links = Rr.getRelated()
+    result = json.dumps({"title": scraper.title, "relatedArticles": Rr.neuroCanada(links), "scoreTitle": scraper.titleScore})
     print(result)
 
 if __name__ == '__main__':
