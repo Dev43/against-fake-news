@@ -9,18 +9,14 @@ function check(url) {
     return new Promise((resolve) => {
         findDateInUrl(url)
             .then(date => {
-                console.log('date/check/findDateInUrl/then');
-
                 lnDiffDates(date).then((result) => {
                     resolve({
                         value: result,
                         reason: 'Date trouvée dans URL.'
                     });
                 });
-
             })
             .catch(reason => {
-
                 const siteDownloader = require('./siteDownloader');
 
                 siteDownloader.download(url)
