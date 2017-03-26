@@ -12,7 +12,7 @@ function post(req, res) {
     const url = req.body.url;
 
     if(!req.body.url){
-        return res.send("Invalid URL, please enter a URL")
+        return res.render("error")
     }
     let isSatirical = satirical.isSatirical(url);
     let totalScore = Math.random()*100
@@ -22,17 +22,18 @@ function post(req, res) {
         relatedArticles.getRelated(req.body.url),
         siteChecker.getResult(url)
     ]).then(results => {
-        console.log(results)
+        // console.log(results)
 	console.log("HEEEERE    /n")
        	console.log("The results are" + JSON.stringify(results))
-        console.log(cleanCategories(results[1]))
+        // console.log(cleanCategories(results[1]))
         return res.render('analysis', {
             sentiment: JSON.stringify(results[0]),
             articles: JSON.stringify(results[0].relatedArticles),
             result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
             description: cleanCategories(results[1]),
-	       totalScore: totalScore
+	       totalScore: getScore(results[1]),
+           score: getScore(results[1])
         });
     }).catch((err) => {
         console.log("Error, the error is", err)
@@ -52,4 +53,9 @@ function cleanCategories(resultFromWot){
         console.log(newCategories)
         return newCategories
 
+}
+
+function getScore(resultFromWot){
+    console.log(resultFromWot.score)
+    return resultFromWot.score
 }

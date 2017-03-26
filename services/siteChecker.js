@@ -9,7 +9,7 @@ module.exports = {
 function getResult(url) {
 
     return new Promise((resolve, reject) => {
-        Promise.all([
+       return Promise.all([
             wotService.getResult(url),
             dateCheck.check(url),
             sentiment.getSentimentPromise(url)
@@ -17,14 +17,14 @@ function getResult(url) {
         .then(results => {
             let sentimentResult = results[2];
 
-            let wotSourcesPromises = [];
-            let length = sentimentResult.sources.length >= 3 ? 3 : sentimentResult.sources.length;
+            // let wotSourcesPromises = [];
+            // let length = sentimentResult.sources.length >= 3 ? 3 : sentimentResult.sources.length;
 
-            for (let i = 0; i < length; i++) {
-                wotSourcesPromises.push(wotService.getResult(sentimentResult.sources[i]));
-            }
+            // for (let i = 0; i < length; i++) {
+            //     wotSourcesPromises.push(wotService.getResult(sentimentResult.sources[i]));
+            // }
 
-            resolve(calculate(results));
+            return resolve(calculate(results));
         })
         .catch(reject);
     });
@@ -37,17 +37,19 @@ function calculate(results) {
     let dateResult = results[1];
     let sentimentResult = results[2];
 
-    let f = sentimentResult.language.French ? 1.4 : 1;
 
-    let r = wotResult.reputation / 100;
-    let c = wotResult.confidence / 100;
+    let f = sentimentResult.language.French ? 1.4 : 1;
+    let rep = wotResult.reputation || 50;
+    let r = rep / 100;
+    let conf = wotResult.confidence || 50;
+    let c = conf / 100;
     let s = (50 - Math.abs(50 - sentimentResult.sentiment_avg)) * 0.4;
 
-
-    let d = dateResult.value / 100;
+    // let d = dateResult.value / 100;
     let t = sentimentResult.scoreTitle / 100;
+    console.log(f,r,c,s,t)
 
-    let score = 0.5 * (r * c * f) + d + t + s;
-
-    return score;
+    let score = 0.5 * (r * c * f) + t + s//d;
+    console.log("the score is", score)
+    return {score: score, wotResult: wotResult, dateResult: dateResult, sentimentResult: sentimentResult};
 }
