@@ -31,7 +31,7 @@ app.post('/analyse', function(req, res) {
          return res.render('analysis', {
             result: JSON.stringify(result),
             sentiment: JSON.stringify(sentimentObject),
-            isSatirical: isSatirical
+            isSatirical: JSON.stringify(isSatirical),
         });
     })
     .catch((error) => {
