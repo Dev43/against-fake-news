@@ -17,13 +17,13 @@ app.post('/analyse', function(req, res) {
   var sentimentPercentage = 0;
   return sentiment.getSentimentPromise(req.body.url)
     .then(function(data){
-    sentimentPercentage = data
+    sentimentObject = data
     return siteCheckerService.getResult(req.body.url)
     })
     .then(result => {
          return res.render('analysis', {
             result: JSON.stringify(result),
-            sentiment: sentimentPercentage
+            sentiment: JSON.stringify(sentimentObject)
         });
     })
     .catch((error) => {

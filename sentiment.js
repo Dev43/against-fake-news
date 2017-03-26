@@ -1,9 +1,7 @@
 const request = require('request');
 require("dotenv").config();
-
-
-
-
+const SENTIMENT_URL = 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment';
+const LANGUAGE_URL = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages";
 
 function averageSentiment(analysisResponse){
   return analysisResponse.reduce((acc, next) => {
@@ -28,11 +26,35 @@ function aggregateSentences(sentences){
   return (objArray);
 }
 
+function mostImportantLanguage(languageArray){
+  let languages = {}
+  languageArray.forEach((element) => {
+    if(!languages.hasOwnProperty(element.detectedLanguages[0].name) && element.detectedLanguages[0].name !== undefined){
+      languages[element.detectedLanguages[0].name] = {count: 1, coefficient: element.detectedLanguages[0].score};
+    } else if(element.detectedLanguages[0].name !== undefined){
+      languages[element.detectedLanguages[0].name].count++;
+      languages[element.detectedLanguages[0].name].coefficient += element.detectedLanguages[0].score;
+    }
+  })
+    // console.log(languages)
+    var maxCount = 0;
+    var maxObject = {}
+    for(var langs in languages){
 
-function sendRequest(data){
+      if(languages[langs].count > maxCount ){
+        maxCount = languages[langs].count
+        maxObject = {[langs]: languages[langs].coefficient/languages[langs].count}
+      }
+    }
+
+    // console.log(maxObject)
+    return maxObject
+}
+
+function sendRequest(data, url){
   const options = {
     method: 'POST',
-    url: 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
+    url: url,
     headers: {
        'cache-control': 'no-cache',
        "accept": 'application/json',
@@ -44,31 +66,34 @@ function sendRequest(data){
     json: true
   };
 
-let p2 = new Promise((resolve, reject) => {
+  let p2 = new Promise((resolve, reject) => {
 
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    // get all the scores for all the sentenvces, make a mean score
-    let avg = averageSentiment(body.documents)
-    resolve(avg)
-    });
-  })
-return p2;
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+      // get all the scores for all the sentenvces, make a mean score
+      if(url === SENTIMENT_URL){
+        let avg = averageSentiment(body.documents)
+        resolve(avg)
+      } else if (url === LANGUAGE_URL){
+        // console.log(JSON.stringify(body.documents))
+        let prominentLanguage = mostImportantLanguage(body.documents)
+        resolve(prominentLanguage)
+      }
+      });
+    })
+  return p2;
 }
 
 
-
 function parseWebsite(url){
-// Scraping a specific website
-var spawn = require('child_process').spawn,
+  var spawn = require('child_process').spawn,
     py    = spawn('python3', ['application.py']), // script is partially in application.py
     dataString = '';
-console.log(py)
+
   let p1 = new Promise((resolve, reject) => {
 
     py.stdout.on('data', function(data){
       dataString += data.toString();
-
     });
 
     py.stdout.on('end', function(){
@@ -80,10 +105,7 @@ console.log(py)
       py.kill();
       resolve(sentencesArray)
     });
-    // py.on('close', (code) => {
-    //   console.log('closed with code', code)
-    // py.stdin.end();
-    // })
+
     py.stdin.write(JSON.stringify(url));
     py.stdin.end();
   })
@@ -97,14 +119,25 @@ module.exports = {
   },
 
   getSentimentPromise: function(url){
+    let dataObject = {}
+    let theData
     return parseWebsite(url)
     .then((data) => {
-      return sendRequest(data)
+      theData = data
+      return sendRequest(data, SENTIMENT_URL)
     })
     .then((avg) => {
       console.log(avg)
-      return avg
+      dataObject["sentiment_avg"] = avg
+      // return avg;
+      return sendRequest(theData, LANGUAGE_URL)
     })
+    .then((languageObject) => {
+      console.log(languageObject)
+      dataObject["language"] = languageObject
+      return Promise.resolve(dataObject)
+    })
+
   }
 
 
