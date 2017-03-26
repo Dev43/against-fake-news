@@ -5,6 +5,7 @@ const bodyParser    = require("body-parser");
 const PORT          = process.env.PORT || 3000;
 const siteCheckerService = require('./services/siteChecker');
 const sentiment = require("./sentiment.js")
+const satiricalDB = require("./satirical_sites_db")
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -15,6 +16,12 @@ app.get('/', function(req, res){
 
 app.post('/analyse', function(req, res) {
   var sentimentPercentage = 0;
+  var isSatirical = false;
+
+    var arr = req.body.url.match(/^(?:http:\/\/|www\.|https:\/\/)([^\/]+)/g)
+  if(satiricalDB.knownSites.hasOwnProperty("http://" + req.body.url) || satiricalDB.knownSites.hasOwnProperty("www." + req.body.url)){
+    isSatirical = true;
+    }
   return sentiment.getSentimentPromise(req.body.url)
     .then(function(data){
     sentimentObject = data
@@ -23,7 +30,8 @@ app.post('/analyse', function(req, res) {
     .then(result => {
          return res.render('analysis', {
             result: JSON.stringify(result),
-            sentiment: JSON.stringify(sentimentObject)
+            sentiment: JSON.stringify(sentimentObject),
+            isSatirical: isSatirical
         });
     })
     .catch((error) => {
