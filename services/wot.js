@@ -57,11 +57,20 @@ function transformData(data) {
             });
         }
 
-        resolve({
-            reputation: data.data[domain]['0'][0],
-            confidence: data.data[domain]['0'][1],
-            categories: categories
-        });
+        if (data.data && data.data[domain] && data.data[domain]['0']) {
+            resolve({
+                reputation: data.data[domain]['0'][0],
+                confidence: data.data[domain]['0'][1],
+                categories: categories
+            });
+        } else {
+            resolve({
+                reputation: 0,
+                confidence: 0,
+                categories: []
+            });
+        }
+
     });
 }
 

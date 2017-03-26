@@ -17,34 +17,37 @@ function getResult(url) {
         .then(results => {
             let sentimentResult = results[2];
 
-            console.log(sentimentResult.sources);
-            return Promise.all(sentimentResult.sources.map((url, index) => {
-                while(index < 3){
-                    return wotService.getResult(url)
-                }
-                return;
-            }))
-            .then((wotResults) => {
-                console.log("HI")
-                return resolve(calculate(results));
-            });
+            let wotSourcesPromises = [];
+            let length = sentimentResult.sources.length >= 3 ? 3 : sentimentResult.sources.length;
 
+            for (let i = 0; i < length; i++) {
+                wotSourcesPromises.push(wotService.getResult(sentimentResult.sources[i]));
+            }
+
+            resolve(calculate(results));
         })
-        .catch((err) => console.log);
+        .catch(reject);
     });
 }
 
 function calculate(results) {
+    // 0.5((R/100*C/100)*F)+D+T+S*0.2
+
     let wotResult = results[0];
-    let dateCheck = results[1];
+    let dateResult = results[1];
     let sentimentResult = results[2];
 
-    console.log(sentimentResult);
+    let f = sentimentResult.language.French ? 1.4 : 1;
 
-    let result = 0;
-    if (wotResult.confidence > 0) {
-        result = (wotResult.reputation / wotResult.confidence) * dateCheck.value;
-    }
+    let r = wotResult.reputation / 100;
+    let c = wotResult.confidence / 100;
+    let s = (50 - Math.abs(50 - sentimentResult.sentiment_avg)) * 0.4;
 
-    return {wotResult: wotResult, dateCheck: dateCheck, sentiment: sentimentResult, result: result};
+
+    let d = dateResult.value / 100;
+    let t = sentimentResult.scoreTitle / 100;
+
+    let score = 0.5 * (r * c * f) + d + t + s;
+
+    return score;
 }
