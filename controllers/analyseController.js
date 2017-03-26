@@ -22,15 +22,31 @@ function post(req, res) {
         console.log(results)
 	console.log("HEEEERE    /n")
        	console.log("The results are" + JSON.stringify(results))
+        console.log(cleanCategories(results[1]))
         return res.render('analysis', {
             sentiment: JSON.stringify(results[0]),
             articles: JSON.stringify(results[0].relatedArticles),
-            result: JSON.stringify(results[2]),
+            result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
+            description: JSON.stringify(cleanCategories(results[1]))
 	    totalScore: totalScore
         });
     }).catch((err) => {
         console.log("Error, the error is", err)
     });
+
+}
+
+function cleanCategories(resultFromWot){
+    console.log("THE WOT RESULTS ARE" + JSON.stringify(resultFromWot))
+    var newCategories = []
+        resultFromWot.wotResult.categories.forEach(function(category) {
+            console.log(category.name)
+            if(newCategories.indexOf(category.name)){
+                newCategories.push(category.name)
+            }
+        })
+        console.log(newCategories)
+        return newCategories
 
 }
