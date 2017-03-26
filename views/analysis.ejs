@@ -1,17 +1,107 @@
 <!DOCTYPE html>
 <html>
- <% include ./partials/_header %>
-  <body>
-    <p>Analyse de l'article</p>
-    <p><%= result %></p>
-    <p><%= sentiment %></p>
-    <p><%= isSatirical %></p>
-    <p><%= articles %></p>
-    So far ce qui est accessible:
+	<% include ./partials/_header %>
+	<style>
+.container-result-global {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+}
+.bad {
+	color: red;
+	font-color: red;
+}
+.good {
+	color: green;
+	font-color: green; 
+}
+.neutral {
+	color: yellow;
+	font-color: yellow;
+}
+.bad i, .good i, .neutral i {
+	font-size: 70px;
+}
 
-    WOT data
-    Seintiment analysis et Language analysis
-    isSatirical Website boolean
-    <a href="/">Return home</a>
-  </body>
+	</style>
+	<body class="mdc-typography">
+
+		<div class="container" id="container-article-all">
+
+			<a href="/">Return home</a>
+			<div class="row">
+				<% 
+	if(totalScore < 50) { %>
+	<% include ./partials/_bad ; %>
+	<% }  else if(totalScore < 70){ %>
+	<% include ./partials/_average ; %>
+	<% } else { %> 
+	<% include ./partials/_good ; %>
+	<% } %>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<h2>Détails de l'article</h2>
+					<div>
+						<h3>Sentiment</h3>
+						<p>
+						<% if(JSON.parse(sentiment).sentiment_avg < 0.4 || JSON.parse(sentiment).sentiment_avg > 0.6) { %>
+						Ce site nous paraît subjectif. Faîtes attention aux opinions biaisées.
+						<% } else { %>
+						Ce site nous paraît objectif. 
+						<% } %>
+						</p>
+					</div>
+					<% if(isSatirical == true) { %>
+					<div>
+						<h3>Satirique</h3>
+						<p>D'après nos informations ce site contient des informations satiriques.</p>
+					</div>
+					<% } %>
+				</div>
+			</div>
+			<div class="col-ws-6">
+				<h2>Recommendations:</h2>
+				<div>
+					<% if(result != null) { %>
+					<p>Le site est classifié comme : 
+					<ul>
+						<% for(var i=0; i< JSON.parse(result).length; i++) { %>
+						<li> <%= JSON.parse(result)[i].name %> </li>
+						<% } %>
+					</ul>
+					<% } else { %>
+					<p>Le site a une bonne réputation. Tout semble normal.
+					<% } %>
+					</p>
+					<p> N'hésitez pas à croiser plusieurs source d'information. </p>
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="mdc-grid-list">
+					<ul id="related-articles" class="mdc-grid-list__tiles">
+						<% for(var i=0; i<articles.length; i++) { %>
+						<% var alt = articles[i].image.alt != null ? articles[i].image.alt : "Image de l'article non accessible"%>
+						<% var src = articles[i].image.href != null ? articles[i].image.href : "public/thumbnail-radio-canada.png"%>
+						<li class="mdc-grid-tile">
+							<div class="mdc-grid-tile__primary">
+								<img class="mdc-grid-tile__primary-content" alt="<%alt%>"src="<%= src %>" />
+
+							</div>
+							<span class="mdc-grid-tile__secondary">
+								<a href="<%=  articles[i].link %>"><span class="mdc-grid-tile__title"><%= articles[i].title %></span></a>
+							</span>
+						</li>
+						<% } %>
+					</ul>
+
+				</div>
+
+			</div>
+		</div>
+
+	</body>
 </html>

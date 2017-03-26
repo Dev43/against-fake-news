@@ -14,7 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.get('/', function(req, res){
     return res.render('index');
 });
-
 app.post('/analyse', analyseController.post);
 
 app.listen(PORT, () => {
