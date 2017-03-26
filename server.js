@@ -31,7 +31,7 @@ app.post('/analyse', function(req, res) {
     sentimentObject = data
     return siteCheckerService.getResult(req.body.url)
     })
-    .then(result => {
+    .then((result) => {
          return res.render('analysis', {
             result: JSON.stringify(result),
             sentiment: JSON.stringify(sentimentObject),

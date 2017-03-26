@@ -108,8 +108,12 @@ function lnDiffDates(date) {
         let duration = moment.duration(now.diff(end));
 
         console.log(duration.asMinutes());
+        if(duration.asMinutes() <= 0){
+            return resolve(NaN)
+        } else {
 
-        resolve(Math.log(duration.asMinutes()));
+         return resolve(Math.log(duration.asMinutes()));
+        }
     });
 }
 
