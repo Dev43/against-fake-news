@@ -26,6 +26,7 @@ app.post('/analyse', function(req, res) {
   var isSatirical = false;
   var arr = req.body.url.match(/^(?:http:\/\/|www\.|https:\/\/)([^\/]+)/g)
   var articles;
+  var totalScore = Math.random()*100;
 
   if(satiricalDB.knownSites.hasOwnProperty("http://" + req.body.url) || satiricalDB.knownSites.hasOwnProperty("www." + req.body.url)){
     isSatirical = true;
@@ -45,7 +46,7 @@ app.post('/analyse', function(req, res) {
           sentiment: JSON.stringify(sentimentObject),
           isSatirical: JSON.stringify(isSatirical),
           articles: articles,
-	  totalScore: Math.random*100
+	  totalScore: totalScore
       });
   })
   .catch((error) => {
