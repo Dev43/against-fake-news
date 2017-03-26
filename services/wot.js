@@ -9,8 +9,11 @@ module.exports = {
 
 function getResult(url) {
     this.url = url;
-    return new Promise((resolve) => {
-        requestApi(url).then(transformData).then(resolve);
+    return new Promise((resolve, reject) => {
+        requestApi(url)
+            .then(transformData)
+            .then(resolve)
+            .catch(reject);
     });
 };
 
@@ -46,7 +49,7 @@ function transformData(data) {
         let wotCategories = data.data[domain].categories;
 
         let categories = [];
-
+        console.log(data)
         for (let cat in wotCategories) {
             categories.push({
                 value: cat,
@@ -64,5 +67,6 @@ function transformData(data) {
 
 function extractDomain(url) {
     let domain = url.replace('http://','').replace('https://','').split(/[/?#]/)[0];
+    console.log(domain)
     return domain;
 }

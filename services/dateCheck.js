@@ -9,13 +9,14 @@ function check(url) {
     return new Promise((resolve) => {
         findDateInUrl(url)
             .then(date => {
-                resolve({
-                    value: lnDiffDates(date),
-                    reason: 'Date trouvée dans URL.'
+                lnDiffDates(date).then((result) => {
+                    resolve({
+                        value: result,
+                        reason: 'Date trouvée dans URL.'
+                    });
                 });
             })
             .catch(reason => {
-
                 const siteDownloader = require('./siteDownloader');
 
                 siteDownloader.download(url)
@@ -107,9 +108,10 @@ function lnDiffDates(date) {
 
         let duration = moment.duration(now.diff(end));
 
-        console.log(duration.asMinutes());
+        //console.log(duration.asMinutes());
         if(duration.asMinutes() <= 0){
-            return resolve(NaN)
+            console.log('duration négatif');
+            return resolve(0);
         } else {
 
          return resolve(Math.log(duration.asMinutes()));

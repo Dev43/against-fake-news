@@ -15,12 +15,10 @@ const urls = {
     ]
 };
 
-require('./services/dateCheck').check(urls.dateInText[0]).then(date => {
-    console.log(date);
-}).catch(reason => {
-    console.log(reason);
-});
+const testDate = urls.dateInUrl[0];
 
-require('./services/siteChecker').getResult(urls.dateInText[0]).then(result => {
+const siteChecker = require('./services/siteChecker');
+
+siteChecker.getResult(testDate).then(result => {
     console.log(result);
 });
