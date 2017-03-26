@@ -28,7 +28,7 @@ function post(req, res) {
             articles: JSON.stringify(results[0].relatedArticles),
             result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
-            description: JSON.stringify(cleanCategories(results[1]))
+            description: cleanCategories(results[1])
 	    totalScore: totalScore
         });
     }).catch((err) => {
