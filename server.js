@@ -7,6 +7,8 @@ const siteCheckerService = require('./services/siteChecker');
 const sentiment = require("./sentiment.js")
 const satiricalDB = require("./satirical_sites_db")
 
+const Promise       = require('bluebird');
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))
 
