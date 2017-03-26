@@ -24,6 +24,7 @@ function getResult(url) {
         ])
         .then(result => {
             console.log(result[0].categories);
+            resolve(result[0].categories)
         })
         .catch(reason => {
             console.log(reason);

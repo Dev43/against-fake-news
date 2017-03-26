@@ -2,3 +2,5 @@ node_modules
 Ideation.Md
 .env
 .vscode
+modules/__pycache__/newsScrapper.cpython-35.pyc
+
