@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html>
- <% include ./partials/_header %>
+				<% include ./partials/_header %>
 
-  <body>
-    <p>Let the game begin!</p>
+				<body>
+								<div class="container">
+												<div class="row">
+																<div class="offset-xs-2 col-xs-4">
+																				<h1>Alètheia <span>- Vérificateur de source</span></h1>
+																</div>
+																<div class="offset-xs-2 col-xs-4">
+																				<img alt="logo-radio-canada" href="/img/logo_radio_canada.jpg">
+																</div>
+												</div>
 
+												<div class="row">
 
-      <form action="/analyse" method="POST">
-        <input class="form-control" type="text" name="url" placeholder="URL de l'article" autofocus>
-        <input class="btn btn-default form-submit" type="submit">
-      </form>
+																<form action="/analyse" method="POST">
+																				<input class="form-control" type="text" name="url" placeholder="URL de l'article" autofocus>
+																				<input class="btn btn-default form-submit" type="submit">
+																</form>
+												</div>
+								</div>
 
-  </body>
+				</body>
 
 </html>

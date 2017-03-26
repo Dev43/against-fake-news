@@ -8,6 +8,8 @@ const sentiment = require("./sentiment.js")
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.static('public'))
+
 
 app.get('/', function(req, res){
     return res.render('index');

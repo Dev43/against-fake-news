@@ -6,7 +6,6 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import urllib3
 from urllib.parse import urlparse
 
-
 urllib3.disable_warnings()
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -19,6 +18,7 @@ class NewsScrapper():
             self.links = self._getLinks()
             self.sources = self.getSource()
             self.title = self._getTitle()
+            self.titleScore = self.titleScore()
 
 
     def scrap(self):
@@ -44,6 +44,28 @@ class NewsScrapper():
         sources = [source for source in sources]
         return sources
 
+    def titleScore(self):
+        if self.title == None:
+            return None
+        title = self.title
+        score = 15
+        for i in range(0, len(title)):
+            if '!' == title[i]:
+                score -= 2
+            if title[i] == '?' and title[i]-1 == '?':
+                score -= 5
+        numberUppercase = 0
+        for word in title.split(' '):
+            if word.isUpper():
+                numberUppercase += 1
+        if numberUppercase > 3:
+            score -= 4
+
+        if score < 0:
+            score = 0
+        return score
+
+        
 
     def _getHtml(self):
         l = self.link
