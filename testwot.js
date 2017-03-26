@@ -15,17 +15,9 @@ const urls = {
     ]
 };
 
-// require('./services/dateCheck').check(urls.dateInText[0]).then(date => {
-//     console.log(date);
-// }).catch(reason => {
-//     console.log(reason);
-// });
-
 const testDate = urls.dateInUrl[0];
 
 const siteChecker = require('./services/siteChecker');
-
-//siteChecker.test(testDate);
 
 siteChecker.getResult(testDate).then(result => {
     console.log(result);
