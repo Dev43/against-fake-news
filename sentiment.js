@@ -143,6 +143,7 @@ module.exports = {
       dataObject["language"] = languageObject
       return Promise.resolve(dataObject)
     })
+    .catch((err) => {console.log("Error in sentiment.js --", err)})
 
   }
 

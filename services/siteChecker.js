@@ -18,16 +18,17 @@ function getResult(url) {
             let sentimentResult = results[2];
 
             console.log(sentimentResult.sources);
-            return Promise.all(sentimentResult.sources.map((url, index) => {
-                while(index < 3){
-                    return wotService.getResult(url)
-                }
-                return;
-            }))
+         return  Promise.resolve()//Promise.all(sentimentResult.sources.map((url, index) => {
+        //         while(index < 3){
+        //             return wotService.getResult(url)
+        //         }
+        //         return;
+        //     }))
             .then((wotResults) => {
                 console.log("HI")
                 return resolve(calculate(results));
-            });
+            })
+            .catch((err) => {console.log("Error in siteChecker", err)});
 
         })
         .catch((err) => console.log);

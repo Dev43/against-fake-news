@@ -15,7 +15,7 @@ function post(req, res) {
 
     Promise.all([
         sentiment.getSentimentPromise(req.body.url),
-        relatedArticles.getRelated(req.body.url),
+        // relatedArticles.getRelated(req.body.url),
         siteChecker.getResult(url)
     ]).then(results => {
         console.log(results)
