@@ -13,7 +13,7 @@ module.exports = {
       py.stdout.on('end', function(){
         dataString = JSON.parse(dataString);
         py.kill();
-        resolve(dataString)
+        return resolve(dataString)
       });
 
       py.stdin.write(JSON.stringify(url));
