@@ -31,5 +31,5 @@ function calculate(results) {
         result = (wotResult.reputation / wotResult.confidence) * dateCheck.value;
     }
 
-    return result;
+    return {wotResult: wotResult, dateCheck: dateCheck, sentiment: sentimentResult, result: result};
 }
