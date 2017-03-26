@@ -15,7 +15,14 @@ function getResult(url) {
             sentiment.getSentimentPromise(url)
         ])
         .then(results => {
-            resolve(calculate(results));
+            let sentimentResult = results[2];
+
+            console.log(sentimentResult.sources);
+
+            Promise.all(sentimentResult.sources.map(url => wotService.getResult(url))).then(wotResults => {
+                resolve(calculate(results));
+            });
+
         })
         .catch(reject);
     });
@@ -25,6 +32,8 @@ function calculate(results) {
     let wotResult = results[0];
     let dateCheck = results[1];
     let sentimentResult = results[2];
+
+    console.log(sentimentResult);
 
     let result = 0;
     if (wotResult.confidence > 0) {
