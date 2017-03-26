@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "local": "./node_modules/.bin/nodemon --watch server.js -e js server.js"
+    "local": "./node_modules/.bin/nodemon --watch server.js -e js server.js --watch sentiment.js"
   },
   "repository": {
     "type": "git",

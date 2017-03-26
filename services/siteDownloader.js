@@ -18,7 +18,6 @@ function download(url) {
             } else {
                 resolve(body);
             }
-
         });
     });
 
