@@ -56,7 +56,7 @@ class NewsScrapper():
                 score -= 5
         numberUppercase = 0
         for word in title.split(' '):
-            if word.isUpper():
+            if word.isupper():
                 numberUppercase += 1
         if numberUppercase > 3:
             score -= 4
