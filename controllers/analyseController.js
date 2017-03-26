@@ -11,6 +11,9 @@ function post(req, res) {
 
     const url = req.body.url;
 
+    if(!req.body.url){
+        return res.send("Invalid URL, please enter a URL")
+    }
     let isSatirical = satirical.isSatirical(url);
     let totalScore = Math.random()*100
 
@@ -28,8 +31,8 @@ function post(req, res) {
             articles: JSON.stringify(results[0].relatedArticles),
             result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
-            description: cleanCategories(results[1])
-	    totalScore: totalScore
+            description: cleanCategories(results[1]),
+	       totalScore: totalScore
         });
     }).catch((err) => {
         console.log("Error, the error is", err)
