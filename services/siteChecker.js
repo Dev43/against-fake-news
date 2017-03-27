@@ -11,7 +11,7 @@ function getResult(url) {
     return new Promise((resolve, reject) => {
        return Promise.all([
             wotService.getResult(url),
-            dateCheck.check(url),
+            Promise.resolve(),//dateCheck.check(url),
             sentiment.getSentimentPromise(url)
         ])
         .then(results => {

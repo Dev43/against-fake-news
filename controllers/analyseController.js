@@ -19,7 +19,7 @@ function post(req, res) {
 
     Promise.all([
         // sentiment.getSentimentPromise(req.body.url),
-        relatedArticles.getRelated(req.body.url),
+        Promise.resolve("yes"),// relatedArticles.getRelated(req.body.url),
         siteChecker.getResult(url)
     ]).then(results => {
         // console.log(results)
@@ -27,8 +27,8 @@ function post(req, res) {
        	console.log("The results are" + JSON.stringify(results))
         // console.log(cleanCategories(results[1]))
         return res.render('analysis', {
-            sentiment: JSON.stringify(results[0]),
-            articles: JSON.stringify(results[0].relatedArticles),
+            sentiment: JSON.stringify(results[1]),
+            articles: JSON.stringify([]),//JSON.stringify(results[0].relatedArticles),
             result: JSON.stringify(results[1]),
             isSatirical: JSON.stringify(isSatirical),
             description: cleanCategories(results[1]),
